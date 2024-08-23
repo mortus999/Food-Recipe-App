@@ -4,10 +4,9 @@ import { BsSearch } from "react-icons/bs";
 import { useMealContext } from '../../context/mealContext';
 import { useNavigate } from 'react-router-dom';
 import { startFetchMealsBySearch } from '../../actions/mealsActions';
-import CategoryList from '../Category/CategoryList';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const SearchForm = ({ categories }) => {
+const SearchForm = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -16,10 +15,12 @@ const SearchForm = ({ categories }) => {
 
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
+    setShowModal(true); // Open modal when typing in the search bar
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setShowModal(false); // Close the modal on search
     navigate("/");
     startFetchMealsBySearch(dispatch, searchTerm, selectedCategories);
   };
@@ -32,7 +33,6 @@ const SearchForm = ({ categories }) => {
     );
   };
 
-  const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   return (
@@ -44,19 +44,13 @@ const SearchForm = ({ categories }) => {
           placeholder='Search recipes here ...'
           value={searchTerm}
           onChange={handleSearchTermChange}
+          onClick={() => setShowModal(true)} // Open modal when clicking on the search bar
         />
         <button
           type="submit"
           className='form-submit-btn text-white text-uppercase fs-14'
         >
           <BsSearch className='btn-icon' size={20} />
-        </button>
-        <button
-          type="button"
-          className='advanced-search-btn text-white text-uppercase fs-14'
-          onClick={openModal}
-        >
-          Advanced Search
         </button>
       </form>
 
@@ -66,22 +60,39 @@ const SearchForm = ({ categories }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="formCategories">
-              <Form.Label>Select Categories</Form.Label>
-              <div className="categories-list">
-                {categories.map((category) => (
+            {/* Course Options */}
+            <Form.Group controlId="formCourseOptions">
+              <Form.Label>Course Options</Form.Label>
+              <div className="course-options">
+                {["Breakfast", "Lunch", "Dinner", "Dessert"].map((course) => (
                   <Form.Check
-                    key={category.idCategory}
+                    key={course}
                     type="checkbox"
-                    label={category.strCategory}
-                    value={category.strCategory}
-                    checked={selectedCategories.includes(category.strCategory)}
-                    onChange={() => handleCategoryChange(category.strCategory)}
+                    label={course}
+                    value={course.toLowerCase()}
+                    checked={selectedCategories.includes(course.toLowerCase())}
+                    onChange={() => handleCategoryChange(course.toLowerCase())}
                   />
                 ))}
               </div>
             </Form.Group>
-            {/* You can add more advanced filters here */}
+
+            {/* Meal Type Options */}
+            <Form.Group controlId="formMealTypeOptions" className="mt-3">
+              <Form.Label>Meal Type</Form.Label>
+              <div className="meal-type-options">
+                {["Chicken", "Beef", "Seafood", "Vegan", "Vegetarian", "Pork", "Lamb", "Pasta"].map((type) => (
+                  <Form.Check
+                    key={type}
+                    type="checkbox"
+                    label={type}
+                    value={type.toLowerCase()}
+                    checked={selectedCategories.includes(type.toLowerCase())}
+                    onChange={() => handleCategoryChange(type.toLowerCase())}
+                  />
+                ))}
+              </div>
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
