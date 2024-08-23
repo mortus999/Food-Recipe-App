@@ -54,25 +54,29 @@ const SearchForm = () => {
         </button>
       </form>
 
-      <Modal show={showModal} onHide={closeModal} centered>
+      <Modal
+        show={showModal}
+        onHide={closeModal}
+        centered
+        className="custom-modal"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Advanced Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form className="advanced-search-form">
             {/* Course Options */}
             <Form.Group controlId="formCourseOptions">
               <Form.Label>Course Options</Form.Label>
-              <div className="course-options">
+              <div className="options-group">
                 {["Breakfast", "Lunch", "Dinner", "Dessert"].map((course) => (
-                  <Form.Check
+                  <div
                     key={course}
-                    type="checkbox"
-                    label={course}
-                    value={course.toLowerCase()}
-                    checked={selectedCategories.includes(course.toLowerCase())}
-                    onChange={() => handleCategoryChange(course.toLowerCase())}
-                  />
+                    className={`filter-option-bubble ${selectedCategories.includes(course.toLowerCase()) ? 'active' : ''}`}
+                    onClick={() => handleCategoryChange(course.toLowerCase())}
+                  >
+                    {course}
+                  </div>
                 ))}
               </div>
             </Form.Group>
@@ -80,16 +84,15 @@ const SearchForm = () => {
             {/* Meal Type Options */}
             <Form.Group controlId="formMealTypeOptions" className="mt-3">
               <Form.Label>Meal Type</Form.Label>
-              <div className="meal-type-options">
+              <div className="options-group">
                 {["Chicken", "Beef", "Seafood", "Vegan", "Vegetarian", "Pork", "Lamb", "Pasta"].map((type) => (
-                  <Form.Check
+                  <div
                     key={type}
-                    type="checkbox"
-                    label={type}
-                    value={type.toLowerCase()}
-                    checked={selectedCategories.includes(type.toLowerCase())}
-                    onChange={() => handleCategoryChange(type.toLowerCase())}
-                  />
+                    className={`filter-option-bubble ${selectedCategories.includes(type.toLowerCase()) ? 'active' : ''}`}
+                    onClick={() => handleCategoryChange(type.toLowerCase())}
+                  >
+                    {type}
+                  </div>
                 ))}
               </div>
             </Form.Group>
