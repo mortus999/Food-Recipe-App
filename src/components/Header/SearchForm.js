@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { startFetchMealsBySearch } from '../../actions/mealsActions';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const SearchForm = () => {
+const SearchForm = ({ categories }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -15,14 +15,13 @@ const SearchForm = () => {
 
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
-    setShowModal(true); // Open modal when typing in the search bar
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setShowModal(false); // Close the modal on search
     navigate("/");
     startFetchMealsBySearch(dispatch, searchTerm, selectedCategories);
+    closeModal();
   };
 
   const handleCategoryChange = (category) => {
@@ -33,66 +32,66 @@ const SearchForm = () => {
     );
   };
 
-  const closeModal = () => setShowModal(false);
+  const openModal = () => {
+    setShowModal(true);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    document.body.style.overflow = 'auto'; // Allow background scrolling
+  };
 
   return (
     <>
-      <form className='search-form flex align-center' onSubmit={handleSearch}>
+      <form className='search-form flex align-center' onClick={openModal}>
         <input
           type="text"
           className='form-control-input text-dark-gray fs-15'
           placeholder='Search recipes here ...'
           value={searchTerm}
           onChange={handleSearchTermChange}
-          onClick={() => setShowModal(true)} // Open modal when clicking on the search bar
+          readOnly // Makes the input readonly to trigger modal on click
         />
         <button
-          type="submit"
+          type="button"
           className='form-submit-btn text-white text-uppercase fs-14'
+          onClick={openModal}
         >
           <BsSearch className='btn-icon' size={20} />
         </button>
       </form>
 
-      <Modal
-        show={showModal}
-        onHide={closeModal}
-        centered
-        className="custom-modal"
-      >
+      <Modal show={showModal} onHide={closeModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Advanced Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="advanced-search-form">
-            {/* Course Options */}
-            <Form.Group controlId="formCourseOptions">
-              <Form.Label>Course Options</Form.Label>
+          <Form>
+            <Form.Group controlId="formCategories">
+              <Form.Label>Select Course Options</Form.Label>
               <div className="options-group">
-                {["Breakfast", "Lunch", "Dinner", "Dessert"].map((course) => (
-                  <div
-                    key={course}
-                    className={`filter-option-bubble ${selectedCategories.includes(course.toLowerCase()) ? 'active' : ''}`}
-                    onClick={() => handleCategoryChange(course.toLowerCase())}
+                {['Breakfast', 'Lunch', 'Dinner', 'Dessert'].map(option => (
+                  <span
+                    key={option}
+                    className={`filter-option-bubble ${selectedCategories.includes(option) ? 'active' : ''}`}
+                    onClick={() => handleCategoryChange(option)}
                   >
-                    {course}
-                  </div>
+                    {option}
+                  </span>
                 ))}
               </div>
-            </Form.Group>
 
-            {/* Meal Type Options */}
-            <Form.Group controlId="formMealTypeOptions" className="mt-3">
-              <Form.Label>Meal Type</Form.Label>
+              <Form.Label>Select Meal Types</Form.Label>
               <div className="options-group">
-                {["Chicken", "Beef", "Seafood", "Vegan", "Vegetarian", "Pork", "Lamb", "Pasta"].map((type) => (
-                  <div
-                    key={type}
-                    className={`filter-option-bubble ${selectedCategories.includes(type.toLowerCase()) ? 'active' : ''}`}
-                    onClick={() => handleCategoryChange(type.toLowerCase())}
+                {['Chicken', 'Beef', 'Seafood', 'Vegan', 'Vegetarian', 'Pork', 'Lamb', 'Pasta'].map(option => (
+                  <span
+                    key={option}
+                    className={`filter-option-bubble ${selectedCategories.includes(option) ? 'active' : ''}`}
+                    onClick={() => handleCategoryChange(option)}
                   >
-                    {type}
-                  </div>
+                    {option}
+                  </span>
                 ))}
               </div>
             </Form.Group>

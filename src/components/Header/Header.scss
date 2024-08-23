@@ -41,6 +41,7 @@
         padding: 0px 3.2rem;
         border-radius: 2.8rem !important;
         margin-right: 1.2rem;
+        cursor: pointer; /* Makes it clear that clicking opens the modal */
     }
     .form-submit-btn {
         width: 55px;
@@ -83,13 +84,13 @@
 
 /* Custom modal styles */
 .custom-modal .modal-content {
-    position: absolute;
-    top: 120%; /* Positioning to hover over the search bar */
-    left: 50%;
-    transform: translate(-50%, -10%);
+    position: fixed;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center alignment */
     width: 80%; /* Adjust width as needed */
     max-width: 600px; /* Optional: set a max width for the modal */
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
