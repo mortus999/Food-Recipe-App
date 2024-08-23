@@ -62,12 +62,12 @@ const SearchForm = ({ categories }) => {
         </button>
       </form>
 
-      <Modal show={showModal} onHide={closeModal} centered>
+      <Modal show={showModal} onHide={closeModal} centered backdropClassName="custom-backdrop">
         <Modal.Header closeButton>
           <Modal.Title>Advanced Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form className="advanced-search-form">
             <Form.Group controlId="formCategories">
               <Form.Label>Select Course Options</Form.Label>
               <div className="options-group">

@@ -78,12 +78,13 @@
 }
 
 /* Modal backdrop blur effect */
-.modal-backdrop {
-    backdrop-filter: blur(5px); /* Blur effect when modal is open */
+.custom-backdrop {
+    backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent dark overlay */
 }
 
 /* Custom modal styles */
-.custom-modal .modal-content {
+.modal-dialog {
     position: fixed;
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
