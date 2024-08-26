@@ -12,24 +12,17 @@ const SearchForm = ({ categories }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const { dispatch } = useMealContext();
   const [showModal, setShowModal] = useState(false);
-
-  const handleSearchTermChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  const [includedIngredients, setIncludedIngredients] = useState([]);
+  const [excludedIngredients, setExcludedIngredients] = useState([]);
+  const [cookingTime, setCookingTime] = useState(30); // Default cooking time
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedDishType, setSelectedDishType] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
     navigate("/");
     startFetchMealsBySearch(dispatch, searchTerm, selectedCategories);
     closeModal();
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)
-        ? prevCategories.filter((c) => c !== category)
-        : [...prevCategories, category]
-    );
   };
 
   const openModal = () => {
@@ -42,6 +35,33 @@ const SearchForm = ({ categories }) => {
     document.body.style.overflow = 'auto'; // Allow background scrolling
   };
 
+  const handleIngredientInput = (e, type) => {
+    if (e.key === 'Enter' && e.target.value.trim() !== '') {
+      if (type === 'include') {
+        setIncludedIngredients([...includedIngredients, e.target.value.trim()]);
+      } else {
+        setExcludedIngredients([...excludedIngredients, e.target.value.trim()]);
+      }
+      e.target.value = '';
+    }
+  };
+
+  const removeIngredient = (ingredient, type) => {
+    if (type === 'include') {
+      setIncludedIngredients(includedIngredients.filter(i => i !== ingredient));
+    } else {
+      setExcludedIngredients(excludedIngredients.filter(i => i !== ingredient));
+    }
+  };
+
+  const handleCourseSelection = (course) => {
+    setSelectedCourse(course === selectedCourse ? '' : course); // Toggle course selection
+  };
+
+  const handleDishTypeSelection = (dishType) => {
+    setSelectedDishType(dishType === selectedDishType ? '' : dishType); // Toggle dish type selection
+  };
+
   return (
     <>
       <form className='search-form flex align-center' onClick={openModal}>
@@ -50,7 +70,7 @@ const SearchForm = ({ categories }) => {
           className='form-control-input text-dark-gray fs-15'
           placeholder='Search recipes here ...'
           value={searchTerm}
-          onChange={handleSearchTermChange}
+          onChange={(e) => setSearchTerm(e.target.value)}
           readOnly // Makes the input readonly to trigger modal on click
         />
         <button
@@ -68,29 +88,79 @@ const SearchForm = ({ categories }) => {
         </Modal.Header>
         <Modal.Body>
           <Form className="advanced-search-form">
-            <Form.Group controlId="formCategories">
-              <Form.Label>Select Course Options</Form.Label>
-              <div className="options-group">
-                {['Breakfast', 'Lunch', 'Dinner', 'Dessert'].map(option => (
-                  <span
-                    key={option}
-                    className={`filter-option-bubble ${selectedCategories.includes(option) ? 'active' : ''}`}
-                    onClick={() => handleCategoryChange(option)}
-                  >
-                    {option}
+            {/* Ingredients Section */}
+            <Form.Group controlId="formIngredients">
+              <Form.Label>Ingredients: What ingredients would you like in the recipe?</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Add ingredients..."
+                onKeyDown={(e) => handleIngredientInput(e, 'include')}
+              />
+              <div className="ingredient-list">
+                {includedIngredients.map((ingredient, index) => (
+                  <span key={index} className="ingredient-bubble">
+                    {ingredient} <span onClick={() => removeIngredient(ingredient, 'include')}>&times;</span>
                   </span>
                 ))}
               </div>
+              <Form.Label>What ingredients would you like to exclude from the recipe?</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Exclude ingredients..."
+                onKeyDown={(e) => handleIngredientInput(e, 'exclude')}
+              />
+              <div className="ingredient-list">
+                {excludedIngredients.map((ingredient, index) => (
+                  <span key={index} className="ingredient-bubble">
+                    {ingredient} <span onClick={() => removeIngredient(ingredient, 'exclude')}>&times;</span>
+                  </span>
+                ))}
+              </div>
+            </Form.Group>
+            <hr />
 
-              <Form.Label>Select Meal Types</Form.Label>
+            {/* Cooking Time Section */}
+            <Form.Group controlId="formCookingTime">
+              <Form.Label>Cooking Time: Set the maximum cooking time (in minutes)</Form.Label>
+              <Form.Control
+                type="range"
+                min="1"
+                max="240"
+                value={cookingTime}
+                onChange={(e) => setCookingTime(e.target.value)}
+              />
+              <div>{cookingTime} minutes or less</div>
+            </Form.Group>
+            <hr />
+
+            {/* Course Section */}
+            <Form.Group controlId="formCourse">
+              <Form.Label>Course: Choose the course for the recipe</Form.Label>
               <div className="options-group">
-                {['Chicken', 'Beef', 'Seafood', 'Vegan', 'Vegetarian', 'Pork', 'Lamb', 'Pasta'].map(option => (
+                {['Breakfast', 'Brunch', 'Lunch', 'Dinner', 'Late-night Snacks'].map(course => (
                   <span
-                    key={option}
-                    className={`filter-option-bubble ${selectedCategories.includes(option) ? 'active' : ''}`}
-                    onClick={() => handleCategoryChange(option)}
+                    key={course}
+                    className={`filter-option-circle ${selectedCourse === course ? 'active' : ''}`}
+                    onClick={() => handleCourseSelection(course)}
                   >
-                    {option}
+                    {course}
+                  </span>
+                ))}
+              </div>
+            </Form.Group>
+            <hr />
+
+            {/* Type of Dish Section */}
+            <Form.Group controlId="formDishType">
+              <Form.Label>Type of dish: Choose the type of dish</Form.Label>
+              <div className="options-group">
+                {['Main Dishes', 'Appetizers', 'Side Dishes', 'Desserts', 'Snacks'].map(dishType => (
+                  <span
+                    key={dishType}
+                    className={`filter-option-circle ${selectedDishType === dishType ? 'active' : ''}`}
+                    onClick={() => handleDishTypeSelection(dishType)}
+                  >
+                    {dishType}
                   </span>
                 ))}
               </div>
