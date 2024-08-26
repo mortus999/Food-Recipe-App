@@ -1,88 +1,193 @@
 @import "../../App.scss";
 
-/* Existing styles here... */
+.navbar {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  height: 60px;
+  position: relative;
+  z-index: 999;
+  transition: $transition;
 
-/* Styling for new modal features */
-.advanced-search-form {
-    .ingredient-list {
-        margin: 10px 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+  .navbar-brand-text {
+    margin-left: 5px;
+  }
 
-        .ingredient-bubble {
-            background-color: $clr-orange;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
+  .navbar-search-btn {
+    margin-right: 12px;
+  }
+}
 
-            span {
-                cursor: pointer;
-                font-weight: bold;
-                margin-left: 5px;
-            }
-        }
+.scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.header {
+  .header-content {
+    height: 400px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("../../assets/images/header_image.jpg") center/cover no-repeat;
+  }
+
+  .header-title {
+    margin-top: 2.4rem;
+  }
+}
+
+.search-form {
+  .form-control-input {
+    box-shadow: 0 4px 10px rgb(0 0 0 / 12%), 0 0 1px rgb(0 0 0 / 5%) inset;
+    min-width: 300px;
+    font-size: 16px;
+    height: 55px;
+    padding: 0px 3.2rem;
+    border-radius: 2.8rem !important;
+    margin-right: 1.2rem;
+    &:focus {
+      outline: none;
+      border: 2px solid $clr-orange;
+    }
+  }
+
+  .form-submit-btn {
+    width: 55px;
+    height: 55px;
+    background-color: $clr-orange;
+    border-radius: 50%;
+    position: relative;
+    transition: $transition;
+
+    .btn-icon {
+      transition: $transition;
     }
 
-    .options-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        justify-content: flex-start;
-        margin: 10px 0;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border: 1px solid $clr-white;
+      border-radius: 50%;
     }
 
-    .filter-option-circle {
-        display: inline-block;
+    &:hover {
+      .btn-icon {
+        transform: scale(0.9);
+        color: $clr-orange;
+      }
+      background: $clr-white;
+    }
+  }
+
+  .advanced-search-btn {
+    margin-left: 1rem;
+    background-color: $clr-orange;
+    border: none;
+    border-radius: 2.8rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      background-color: darken($clr-orange, 10%);
+    }
+  }
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(5px);
+}
+
+.advanced-modal {
+  max-width: 600px;
+  margin: auto;
+  background: $clr-white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  .modal-header,
+  .modal-footer {
+    border: none;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px 0;
+
+      label {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .ingredient-input {
+    margin: 10px 0;
+    .input-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .ingredient-bubble {
         background-color: $clr-light-gray;
-        color: $clr-dark;
-        padding: 10px 15px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
-
-        &.active {
-            background-color: $clr-orange; /* Change color when active */
-            color: #fff;
+        border-radius: 20px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        .remove-icon {
+          cursor: pointer;
+          margin-left: 5px;
         }
-
-        &:hover {
-            background-color: darken($clr-light-gray, 10%);
-        }
+      }
     }
+  }
 
-    .form-control[type="range"] {
-        width: 100%;
-        margin: 10px 0;
+  .adjustable-bar {
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  .circle-options {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    .circle-button {
+      display: inline-block;
+      border-radius: 50%;
+      background-color: $clr-light-gray;
+      width: 80px;
+      height: 80px;
+      text-align: center;
+      line-height: 80px;
+      cursor: pointer;
+      transition: $transition;
+      &:hover,
+      &.active {
+        background-color: $clr-orange;
+        color: $clr-white;
+      }
     }
+  }
 
-    hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        margin: 20px 0;
-    }
-}
-
-/* Modal backdrop blur effect */
-.custom-backdrop {
-    backdrop-filter: blur(5px); /* Apply a blur effect to the background */
-    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent dark overlay */
-}
-
-/* Custom modal styles */
-.modal-dialog {
-    position: fixed;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 600px;
-    background: $clr-white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .thin-break {
+    border: none;
+    border-top: 1px solid $clr-gray;
+    margin: 20px 0;
+  }
 }
