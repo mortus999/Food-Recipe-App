@@ -1,76 +1,296 @@
-@import "../../App.scss";
-.navbar{
+/* Header.scss */
+
+/* Navbar Styles */
+.navbar {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    height: 60px;
+    height: 80px;
     position: relative;
     z-index: 999;
-    transition: $transition;
-
-    .navbar-brand-text{
-        margin-left: 5px;
+    color: white;
+  
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+  
+      img {
+        height: 71px; // Adjust logo height
+        width: auto;
+        margin-right: 8px;
+      }
     }
-    .navbar-search-btn{
-        margin-right: 12px;
+  
+    .navbar-brand-text {
+      margin-left: 5px;
+      color: rgb(39, 96, 153);
+      font-size: 22px; // Adjust font size if needed
     }
-}
-
-.scrolled{
+  
+    .navbar-btns {
+      .auth-btn {
+        height: 40px;
+        width: 110px;
+        background-color: #2d8bd7; // Change this to your preferred color
+        color: rgb(255, 255, 255); // Change this to your preferred color
+        border: none;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+  
+  
+        &:hover {
+          background-color: lighten(#2d8bd7, 10%); // Lighten color on hover
+          color: white;
+        }
+        
+        .user-icon {
+        height: 30px;
+        width: auto;
+        margin-right: 7px;
+        svg {
+          fill: white;
+        }
+  
+      }
+      }
+    }
+  }
+  
+  
+  /* Fixed Navbar on Scroll */
+  .scrolled {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-}
+  }
+  
+  /* Header Styles */
+  .header {
+    .header-content {
+      height: 700px;
+      width: 100%;
+      align-items: center;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("../../assets/images/MainBackground.jpg") center/cover no-repeat;
+    }
 
-.header{
-    .header-content{
-        height: 400px;
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("../../assets/images/header_image.jpg") center/cover no-repeat;
-    }
-    .header-title{
-        margin-top: 2.4rem;
-    }
-}
 
-.search-form{
-    .form-control-input{
-        box-shadow: 0 4px 10px rgb(0 0 0 / 12%), 0 0 1px rgb(0 0 0 / 5%) inset;
-        min-width: 300px;
-        font-size: 16px;
-        height: 55px;
-        padding: 0px 3.2rem;
-        border-radius: 2.8rem!important;
-        margin-right: 1.2rem;
+  
+    .header-title {
+      margin-top: 2.4rem;
     }
-    .form-submit-btn{
-        width: 55px;
-        height: 55px;
-        background-color: $clr-orange;
+  }
+  
+
+
+
+
+  /* Search Form Styles */
+  .search-form {
+    .form-control-input {
+      box-shadow: 0 4px 10px rgb(0 0 0 / 12%), 0 0 1px rgb(0 0 0 / 5%) inset;
+      min-width: 300px;
+      font-size: 16px;
+      height: 55px;
+      padding: 0px 3.2rem;
+      border-radius: 2.8rem !important;
+      margin-right: 1.2rem;
+      border: 2px solid #43a0c2; /* Visible border for the input */
+    }
+  
+    .form-submit-btn {
+      width: 55px;
+      height: 55px;
+      background-color: #00aeff; /* Replace with $clr-orange */
+      border-radius: 50%;
+      position: relative;
+      transition: all 0.3s ease;
+  
+      .btn-icon {
+        transition: all 0.3s ease;
+      }
+  
+      &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border: 1px solid #fff; /* Replace with $clr-white */
         border-radius: 50%;
-        position: relative;
-        transition: $transition;
-
-        .btn-icon{
-            transition: $transition;
+      }
+  
+      &:hover {
+        .btn-icon {
+          transform: scale(0.9);
+          color: #00b3ff; /* Replace with $clr-orange */
         }
-
-        &:after{
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border: 1px solid $clr-white;
-            border-radius: 50%;
-        }
-
-        &:hover{
-            .btn-icon{
-                transform: scale(0.9);
-                color: $clr-orange;
-            }
-            background: $clr-white;
-        }
+        background: #fff; /* Replace with $clr-white */
+      }
     }
-}
+  }
+  
+  /* Advanced Search Modal Styles */
+  .advanced-modal {
+    position: fixed; /* Fixed position to hover over content */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    z-index: 1050; /* Ensure it appears above other content */
+    width: 80%;
+    max-width: 750px; /* Optional: max width to prevent it from being too large */
+    background-color: white; /* Background color for the modal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Blur effect */
+    padding: 20px;
+  
+    .modal-content {
+      border-radius: 10px;
+      background-color: transparent; /* Make inner modal content background transparent */
+      box-shadow: none; /* Remove inner shadow */
+    }
+  
+    .modal-header {
+      border-bottom: none;
+      background-color: #f8f8f8;
+      border-radius: 10px 10px 0 0;
+      padding: 15px 20px;
+    }
+  
+    .modal-body {
+      padding: 20px;
+  
+      .input-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Spacing between ingredient bubbles */
+        margin-top: 10px;
+        border-color: #60AFCB;
+      }
+  
+      .ingredient-bubble {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 8px 12px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+      }
+  
+      .remove-icon {
+        margin-left: 8px;
+        cursor: pointer;
+        color: #ff4d4d;
+      }
+  
+      .adjustable-bar {
+        width: 100%;
+        margin: 10px 0;
+      }
+  
+      .circle-options {
+        display: flex;
+        gap: 12px; /* Space between circle buttons */
+        flex-wrap: wrap; /* Allow items to wrap */
+      }
+  
+      .circle-button {
+        width: 120px; /* Increased width */
+        height: 120px; /* Increased height */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: #207FA2;
+        font-size: 14px; /* Adjusted font size */
+        text-align: center;
+        padding: 5px;
+        border: 2px solid transparent;
+        transition: background-color 0.3s, border-color 0.3s;
+        color: #FAFAFA;
+        border-color: #000000;
+  
+        &.active {
+          background-color: #5ABBDE;
+          color: white;
+        }
+  
+        &:hover {
+          background-color: #7fd9f9;
+        }
+      }
+  
+      hr.thin-break {
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+      }
+  
+      .form-group {
+        margin-bottom: 20px;
+      }
+  
+      .form-control {
+        border: 1px solid #ccc; /* Border around the input box */
+        border-radius: 4px;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding doesn't affect width */
+      }
+    }
+  
+    .modal-footer {
+      border-top: none;
+      padding: 15px 20px;
+      background-color: #f8f8f8;
+      border-radius: 0 0 10px 10px;
+      display: flex; /* Flex layout for buttons */
+      justify-content: space-between; /* Even spacing between buttons */
+  
+      .btn-close {
+        margin-right: 10px; /* Adds spacing to the right of the Close button */
+        padding: 10px 20px; /* Add padding for size consistency */
+        background-color: #ff4d4d; /* Example: red color for the close button */
+        color: #fff; /* White text for better contrast */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Smooth background transition */
+        
+        &:hover {
+          background-color: #ff1a1a; /* Darker red on hover */
+        }
+      }
+  
+      .btn-search {
+        padding: 10px 20px; /* Add padding for size consistency */
+        background-color: #4CAF50; /* Example: green color for the search button */
+        color: #fff; /* White text for better contrast */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Smooth background transition */
+
+
+        
+        &:hover {
+          background-color: #3e8e41; /* Darker green on hover */
+        }
+      }
+    }
+  
+  /* General Styles */
+  body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+  }

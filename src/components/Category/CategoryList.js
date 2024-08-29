@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Category.scss";
+import "./SignUp.scss";
+import checkIcon from '../../assets/images/check-icon.jpg';
+import illustration from '../../assets/images/illustration.png';
 
 const CategoryList = ({categories}) => {
   return (
@@ -19,6 +22,9 @@ const CategoryList = ({categories}) => {
                       <div className='category-itm-title bg-orange'>
                         <h3 className='text-white fs-11 fw-6 ls-1 text-uppercase'>{title}</h3>
                       </div>
+                        <h1></h1>
+
+
                     </div>
                   </Link>
                 )
@@ -26,6 +32,39 @@ const CategoryList = ({categories}) => {
             }
           </section>
         </div>
+        <div className="signup-section">
+      <div className="signup-content">
+        <h2>
+          Sign up with us today and enjoy
+          <span className="highlight">Z-clusive features!</span>
+        </h2>
+        <button className="signup-button">Sign up now</button>
+      </div>
+      <div className="features-list">
+        <ul>
+          <li>
+            <img src={checkIcon} alt="Check icon" />
+            Save your favorite recipes
+          </li>
+          <li>
+            <img src={checkIcon} alt="Check icon" />
+            Create personalized collections
+          </li>
+          <li>
+            <img src={checkIcon} alt="Check icon" />
+            Post your own recipes
+          </li>
+          <li>
+            <img src={checkIcon} alt="Check icon" />
+            Share them with others
+          </li>
+        </ul>
+      </div>
+      <div className="illustration">
+        <img src={illustration} alt="Illustration of person cooking" />
+      </div>
+    </div>
+
     </div>
   )
 }
