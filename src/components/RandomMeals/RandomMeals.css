@@ -1,0 +1,42 @@
+.random-meals-section {
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .random-meals-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .meals-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .meal-card {
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .meal-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .meal-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .meal-name {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  

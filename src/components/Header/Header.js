@@ -25,8 +25,8 @@ const Header = () => {
     <header className='header'>
       <Navbar />
       <div className='header-content flex align-center justify-center flex-column text-center'>
-        <h1 className='text-white header-title ls-2'>Welcome to Recipe-Z</h1>
-        <p className='text-uppercase text-white my-3 ls-1'>Discover Your Perfect Recipes with Advanced Filters!</p>
+        <h1 className='text-white header-title ls-2'>Discover Your Perfect Recipes</h1>
+        <p className='text-uppercase text-white my-3 ls-1'>With Advanced Filters!</p>
         {/* Pass the categories to SearchForm */}
         <SearchForm categories={categories} />
       </div>
