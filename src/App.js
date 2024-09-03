@@ -8,6 +8,7 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 import RandomMeals from './components/RandomMeals/RandomMeals';
+import ResetPassword from './components/ResetPassword/ResetPassword'; // Import the ResetPassword component
 import { useAuth, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Header/Navbar';
 import CreateMyPlate from './pages/CreateMyPlates/CreateMyPlates';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/meal/:id" element={<MealDetails />} />
         <Route path="/meal/category/:name" element={<Category />} />
+        <Route path="/reset-password/:uidb64/:token/" element={<ResetPassword />} /> {/* Updated route */}
         <Route path="*" element={<Error />} />
       </Routes>
 
