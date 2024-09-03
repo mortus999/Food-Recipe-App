@@ -5,30 +5,40 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState('');
 
   if (!isOpen) return null;
 
+  const getCsrfToken = () => {
+    // Ensure the CSRF token is available
+    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+    return tokenElement ? tokenElement.value : '';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch('https://recipe-z.onrender.com/api/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrfToken(), // Include CSRF token
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include',  // Important for session-based auth
+        credentials: 'include',  // Include cookies in the request
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Login successful:', data);
-        onClose();
-        // Redirect or update state to reflect user login
+        setMessage('Login successful! Welcome back.');
+        setError(null);
+        setTimeout(() => {
+          onClose(); // Close modal and redirect or update state as needed
+        }, 1000);
       } else {
         const errorData = await response.json();
-        setError(errorData.detail || 'Login failed');
+        setError(errorData.error || 'Login failed');
+        setMessage('Login failed');
       }
     } catch (err) {
       console.error('Error during login:', err);
@@ -46,6 +56,7 @@ const LoginModal = ({ isOpen, onClose }) => {
         <button className="close-btn" onClick={onClose}>&times;</button>
         <h2>Welcome back to <span className="highlight">Recipe-Z!</span></h2>
         <p>Sign in to access your saved recipes, explore new culinary ideas, and enjoy a personalized cooking experience.</p>
+        {message && <p className="message">{message}</p>}
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -56,7 +67,6 @@ const LoginModal = ({ isOpen, onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <span className="icon">&#9993;</span>
           </div>
           <div className="input-group">
             <input
@@ -66,7 +76,6 @@ const LoginModal = ({ isOpen, onClose }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <span className="icon">&#128274;</span>
           </div>
           <button type="submit" className="signin-btn">Sign in</button>
           <div className="or-divider">Or</div>
@@ -80,3 +89,4 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
+

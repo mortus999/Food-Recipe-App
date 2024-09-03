@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './SignInModal.scss';
-import LoginModal from '../LoginModal/LoginModal'; // Import the LoginModal component
-import { useAuth } from '../../context/AuthContext'; // Import useAuth for auth context
+import LoginModal from '../LoginModal/LoginModal';
 
 const SignInModal = ({ isOpen, onClose }) => {
   const [isLoginOpen, setLoginOpen] = useState(false);
@@ -11,46 +10,55 @@ const SignInModal = ({ isOpen, onClose }) => {
     password: '',
     confirmPassword: ''
   });
-  const { signUp, error } = useAuth(); // Use AuthContext to handle signup
+  const [error, setError] = useState(null);
 
-  // Update form data based on input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle sign up form submission
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     const { name, email, password, confirmPassword } = formData;
-    
-    // Basic validation (e.g., password match)
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
-    // Call the signup function from AuthContext
-    signUp(name, email, password).then(() => {
-      onClose(); // Close modal on successful signup
-    }).catch(err => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+        onClose();  // Close modal on successful signup
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Registration failed.');
+      }
+    } catch (err) {
       console.error("Sign up failed:", err);
-    });
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
-  // Open login modal and close sign up modal
   const handleLoginClick = () => {
-    setLoginOpen(true); // Open the login modal
-    onClose(); // Close the sign-in modal
+    setLoginOpen(true);
+    onClose();
   };
 
-  // Close login modal
   const handleLoginClose = () => {
-    setLoginOpen(false); // Close the login modal
+    setLoginOpen(false);
   };
 
-  // Return null if both modals are closed
-  if (!isOpen && !isLoginOpen) return null; 
+  if (!isOpen && !isLoginOpen) return null;
 
   return (
     <>
@@ -60,7 +68,7 @@ const SignInModal = ({ isOpen, onClose }) => {
             <button className="close-btn" onClick={onClose}>&times;</button>
             <h2>Join <span className="highlight">Recipe-Z</span> Today!</h2>
             <p>Discover, save, and share your favorite recipes with our powerful search and filtering tools. Sign up now and start exploring a world of culinary inspiration!</p>
-            {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
+            {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSignUp}>
               <div className="input-group">
                 <input 
