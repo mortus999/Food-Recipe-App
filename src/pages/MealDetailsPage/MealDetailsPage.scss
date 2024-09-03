@@ -1,1 +1,71 @@
 @import "../../App.scss";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+// @import 'path/to/global/styles'; // Adjust the import path as needed
+
+// Variables
+$clr-black: #000000;
+$clr-whitesmoke: #f5f5f5;
+$clr-orange: #0eabce;
+$font-raleway: 'Raleway', sans-serif;
+
+// Main content styling
+.main-content {
+  background-color: $clr-whitesmoke;
+  font-family: $font-raleway;
+  padding: 2rem;
+
+  // Loader specific styles if any
+  .loader {
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+// MealSingle Component
+.meal-single {
+  .meal-title {
+    font-size: 2.4rem;
+    color: $clr-black;
+    text-align: center;
+    margin-bottom: 1.6rem;
+  }
+
+  .meal-thumbnail {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .meal-details {
+    padding: 2rem;
+    background-color: $clr-whitesmoke;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .meal-instructions {
+    font-size: 1.6rem;
+    color: $clr-black;
+    line-height: 1.6;
+    margin-top: 1.6rem;
+  }
+}
+
+// CategoryList Component
+.category-list {
+  margin-top: 4rem;
+  .category-item {
+    padding: 1rem;
+    background-color: $clr-orange;
+    color: $clr-black;
+    text-align: center;
+    border-radius: 4px;
+    margin: 0.5rem;
+    transition: $transition;
+
+    &:hover {
+      background-color: darken($clr-orange, 10%);
+    }
+  }
+}

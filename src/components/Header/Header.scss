@@ -73,27 +73,6 @@
   /* Header Styles */
   .header {
     .header-content {
-      height: 400px;
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("../../assets/images/header_image.jpg") center/cover no-repeat;
-    }
-  
-    .header-title {
-      margin-top: 2.4rem;
-    }
-  }
-  
-  /* Search Form Styles */
-  .search-form {
-    .form-control-input {
-      box-shadow: 0 4px 10px rgb(0 0 0 / 12%), 0 0 1px rgb(0 0 0 / 5%) inset;
-      min-width: 300px;
-      font-size: 16px;
-      height: 55px;
-      padding: 0px 3.2rem;
-      border-radius: 2.8rem !important;
-      margin-right: 1.2rem;
-      border: 2px solid #43a0c2; /* Visible border for the input */
-    }
       height: 700px;
       width: 100%;
       align-items: center;
@@ -105,7 +84,7 @@
     .header-title {
       margin-top: 2.4rem;
     }
-  
+  }
   
 
 
@@ -127,7 +106,6 @@
     .form-submit-btn {
       width: 55px;
       height: 55px;
-      background-color: #FFA500; /* Replace with $clr-orange */
       background-color: #00aeff; /* Replace with $clr-orange */
       border-radius: 50%;
       position: relative;
@@ -152,7 +130,6 @@
       &:hover {
         .btn-icon {
           transform: scale(0.9);
-          color: #FFA500; /* Replace with $clr-orange */
           color: #00b3ff; /* Replace with $clr-orange */
         }
         background: #fff; /* Replace with $clr-white */

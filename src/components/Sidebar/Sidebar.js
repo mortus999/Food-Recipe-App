@@ -1,35 +1,78 @@
-import React from 'react';
-import { useSidebarContext } from '../../context/sidebarContext';
-import { ImCancelCircle} from "react-icons/im";
-import "./Sidebar.scss";
+import React, { useState } from 'react';
+import { ImCancelCircle, ImSpoonKnife, ImCog } from 'react-icons/im';
 import { Link } from "react-router-dom";
-import { useMealContext } from '../../context/mealContext';
+import './Sidebar.scss';
+import { FaSignOutAlt, FaRegUserCircle, FaRegEdit } from "react-icons/fa";
+import { IoHomeOutline } from "react-icons/io5";
+import { CiBookmark } from "react-icons/ci";
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 
 const Sidebar = () => {
-    const { isSidebarOpen, closeSidebar} = useSidebarContext();
-    const { categories } = useMealContext();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-    return (
-        <nav className={`sidebar ${isSidebarOpen ? 'sidebar-visible' : ""}`}>
-            <button type = "button" className='navbar-hide-btn' onClick={() => closeSidebar()}>
-                <ImCancelCircle size = {24} />
-            </button>
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
-            <div className='side-content'>
-                <ul className='side-nav'>
-                    {
-                        categories.map(category => (
-                            <li className='side-item' key = {category.idCategory}>
-                                <Link to = {`/meal/category/${category.strCategory}`} className='side-link ls-1 fs-13' onClick={() => closeSidebar()}>
-                                    {category.strCategory}
-                                </Link>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-        </nav>
-    )
+  return (
+    <nav className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+      <button type="button" className='navbar-hide-btn' onClick={toggleSidebar}>
+        {isCollapsed ? <IoIosArrowForward size={24} /> : <IoIosArrowBack size={24} />}
+      </button>
+
+      <div className='side-content'>
+        <ul className='side-nav'>
+          <li className='side-item'>
+            <Link to="/" className='side-link'>
+              <IoHomeOutline className="side-icon" />
+              <span className='side-link-text'>Home</span>
+            </Link>
+          </li>
+          <li className='side-item'>
+            <Link to="/cookbooks" className='side-link'>
+              <CiBookmark className="side-icon" />
+              <span className='side-link-text'>My Cookbooks</span>
+            </Link>
+          </li>
+          <li className='side-item'>
+            <Link to="/create-my-plate" className='side-link'>
+              <FaRegEdit className="side-icon" />
+              <span className='side-link-text'>Create My Plate</span>
+            </Link>
+          </li>
+          <li className='side-item'>
+            <Link to="/plates" className='side-link'>
+              <ImSpoonKnife className="side-icon" />
+              <span className='side-link-text'>My Plates</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
+
+      <div className='side-footer'>
+        <ul className='side-nav'>
+          <li className='side-item'>
+            <Link to="/profile" className='side-link'>
+              <FaRegUserCircle className="side-icon" />
+              <span className='side-link-text'>My Profile</span>
+            </Link>
+          </li>
+          <li className='side-item'>
+            <Link to="/settings" className='side-link'>
+              <ImCog className="side-icon" />
+              <span className='side-link-text'>Settings</span>
+            </Link>
+          </li>
+          <li className='side-item'>
+            <Link to="/signout" className='side-link'>
+              <FaSignOutAlt className="side-icon" />
+              <span className='side-link-text'>Sign out</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
