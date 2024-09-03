@@ -1,3 +1,5 @@
+// SearchForm.js
+
 import React, { useState } from 'react';
 import "./Header.scss";
 import { BsSearch } from "react-icons/bs";
@@ -8,10 +10,9 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 const SearchForm = ({ categories }) => {
   const navigate = useNavigate();
-  const { dispatch } = useMealContext();
-  
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const { dispatch } = useMealContext();
   const [showModal, setShowModal] = useState(false);
   const [includeIngredients, setIncludeIngredients] = useState([]);
   const [excludeIngredients, setExcludeIngredients] = useState([]);
@@ -25,8 +26,8 @@ const SearchForm = ({ categories }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    navigate("/");
     startFetchMealsBySearch(dispatch, searchTerm, selectedCategories, includeIngredients, excludeIngredients, cookingTime, selectedCourse, selectedDishType);
-    navigate("/"); // Redirect to the home page or results page
     closeModal();
   };
 
@@ -152,7 +153,7 @@ const SearchForm = ({ categories }) => {
             <Form.Group controlId="formCourse">
               <Form.Label>Course</Form.Label>
               <div className="circle-options">
-                {categories.map((course) => (
+                {['breakfast', 'brunch', 'lunch', 'dinner', 'late-night snacks'].map((course) => (
                   <div
                     key={course}
                     className={`circle-button ${course === selectedCourse ? 'active' : ''}`}
