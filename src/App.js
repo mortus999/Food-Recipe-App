@@ -30,6 +30,7 @@ function App() {
         <Route path="/meal/category/:name" element={<Category />} />
         <Route path="/reset-password/:uidb64/:token/" element={<ResetPassword />} /> {/* Updated route */}
         <Route path="*" element={<Error />} />
+        
       </Routes>
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginModal.scss';
 
 const LoginModal = ({ isOpen, onClose }) => {
@@ -6,30 +6,47 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
+  const [csrfToken, setCsrfToken] = useState('');
+
+  useEffect(() => {
+    // Fetch CSRF token when the component mounts
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch('/api/get-csrf-token/'); // Adjust this endpoint as needed
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+      } catch (err) {
+        console.error('Error fetching CSRF token:', err);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   if (!isOpen) return null;
-
-  const getCsrfToken = () => {
-    // Ensure the CSRF token is available
-    const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-    return tokenElement ? tokenElement.value : '';
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     try {
-      const response = await fetch('https://recipe-z.onrender.com/api/login/', {
+      const response = await fetch(`${apiUrl}/api/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCsrfToken(), // Include CSRF token
+          'X-CSRFToken': csrfToken, // Include CSRF token if needed
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include',  // Include cookies in the request
+        credentials: 'include', // Include cookies in the request
       });
 
+      console.log('Response Status:', response.status);
+      console.log('Response Headers:', response.headers);
+
       if (response.ok) {
+        const data = await response.json();
+        console.log('Response Data:', data);
         setMessage('Login successful! Welcome back.');
         setError(null);
         setTimeout(() => {
@@ -48,6 +65,11 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   const handleSocialLogin = (provider) => {
     window.location.href = `https://recipe-z.onrender.com/api/${provider}/login/`;
+  };
+
+  const handleForgotPassword = () => {
+    // Implement forgot password functionality
+    console.log('Forgot Password Clicked');
   };
 
   return (
@@ -81,7 +103,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           <div className="or-divider">Or</div>
           <button type="button" className="social-btn google" onClick={() => handleSocialLogin('google')}>Sign in with Google</button>
           <button type="button" className="social-btn facebook" onClick={() => handleSocialLogin('facebook')}>Sign in with Facebook</button>
-          <button type="button" className="social-btn forgot">Forgot Password</button>
+          <button type="button" className="social-btn forgot" onClick={handleForgotPassword}>Forgot Password</button>
         </form>
       </div>
     </div>
@@ -89,4 +111,3 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
-
