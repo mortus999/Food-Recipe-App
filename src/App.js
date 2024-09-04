@@ -24,6 +24,7 @@ function App() {
         <Route path="/meal/category/:name" element={<Category />} />
         <Route path="/reset-password/:uidb64/:token/" element={<ResetPassword />} /> {/* Updated route */}
         <Route path="*" element={<Error />} />
+        
       </Routes>
       {isAuthenticated && <RandomMeals />} {/* Show RandomMeals only for logged-in users */}
       <Footer />
