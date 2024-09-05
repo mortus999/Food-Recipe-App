@@ -9,17 +9,17 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [csrfToken, setCsrfToken] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // // Hard-coded API URL for local development
-  // const apiUrl = 'http://localhost:8000';
+  // Hard-coded API URL for local development
+  const apiUrl = 'http://localhost:8000';
 
-  // Use environment variable for API URL
-  const apiUrl = process.env.REACT_APP_API_URL;
+  // // Use environment variable for API URL
+  // const apiUrl = process.env.REACT_APP_API_URL;
   
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/get-csrf-token/`, { // Changed line
+        const response = await fetch(`${apiUrl}/api/get-csrf-token/`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -40,17 +40,17 @@ const LoginModal = ({ isOpen, onClose }) => {
     if (isOpen) {
       fetchCsrfToken();
     }
-  }, [isOpen, apiUrl]); // Changed line to include apiUrl in dependencies
+  }, [isOpen, apiUrl]);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Added line to set submitting state
+    setIsSubmitting(true);
     setError(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/login/`, { // Changed line
+      const response = await fetch(`${apiUrl}/api/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,13 +75,13 @@ const LoginModal = ({ isOpen, onClose }) => {
       console.error('Error during login:', err);
       setError('An error occurred. Please try again later.');
     } finally {
-      setIsSubmitting(false); // Added line to reset submitting state
+      setIsSubmitting(false);
     }
   };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/logout/`, { // Changed line
+      const response = await fetch(`${apiUrl}/api/logout/`, {
         method: 'POST',
         credentials: 'include',
       });
