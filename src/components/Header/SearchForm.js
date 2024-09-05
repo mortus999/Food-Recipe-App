@@ -1,46 +1,70 @@
-// SearchForm.js
-
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import "./Header.scss";
 import { BsSearch } from "react-icons/bs";
 import { useMealContext } from '../../context/mealContext';
 import { useNavigate } from 'react-router-dom';
-import { startFetchMealsBySearch } from '../../actions/mealsActions';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const SearchForm = ({ categories }) => {
+const SearchForm = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const { dispatch } = useMealContext();
-  const [showModal, setShowModal] = useState(false);
   const [includeIngredients, setIncludeIngredients] = useState([]);
   const [excludeIngredients, setExcludeIngredients] = useState([]);
-  const [cookingTime, setCookingTime] = useState(60); // Default cooking time to 60 minutes
-  const [selectedCourse, setSelectedCourse] = useState(null); // State for selected course
-  const [selectedDishType, setSelectedDishType] = useState(null); // State for selected dish type
+  const [cookingTime, setCookingTime] = useState(null); // Default unselected
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedDishType, setSelectedDishType] = useState(null);
+  const { dispatch } = useMealContext();
+  const [showModal, setShowModal] = useState(false);
+  const searchBarRef = useRef(null);
+  const [modalOpenedFromBar, setModalOpenedFromBar] = useState(false); // Track if modal was opened from search bar
 
-  const handleSearchTermChange = (e) => {
-    setSearchTerm(e.target.value);
+  // Fetch request to send search query to backend
+  const fetchRecipes = async () => {
+    try {
+      const queryParams = new URLSearchParams();
+
+      if (searchTerm) queryParams.append('search', searchTerm);
+      if (includeIngredients.length) queryParams.append('include_ingredients', includeIngredients.join(','));
+      if (excludeIngredients.length) queryParams.append('exclude_ingredients', excludeIngredients.join(','));
+      if (cookingTime !== null) queryParams.append('max_time', cookingTime);
+      if (selectedCourse) queryParams.append('meal_type', selectedCourse);
+      if (selectedDishType) queryParams.append('dish_type', selectedDishType);
+
+      const response = await fetch(`/api/cacherecipesearch/?${queryParams.toString()}`);
+      
+      if (!response.ok) throw new Error('Failed to fetch recipes');
+      
+      const data = await response.json();
+      dispatch({ type: 'SET_MEALS', payload: data });
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
+    fetchRecipes();
+    setShowModal(false);  // Close modal after applying
+    setModalOpenedFromBar(false);
     navigate("/");
-    startFetchMealsBySearch(dispatch, searchTerm, selectedCategories, includeIngredients, excludeIngredients, cookingTime, selectedCourse, selectedDishType);
-    closeModal();
   };
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)
-        ? prevCategories.filter((c) => c !== category)
-        : [...prevCategories, category]
-    );
+  const handleSearchTermChange = (e) => setSearchTerm(e.target.value);
+
+  const handleFirstClick = (e) => {
+    if (!modalOpenedFromBar) {
+      searchBarRef.current.focus();
+      setModalOpenedFromBar(true);
+    } else {
+      openModal();
+    }
   };
 
   const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+    setModalOpenedFromBar(false);
+  };
 
   const handleIngredientChange = (type, ingredient) => {
     if (type === 'include') {
@@ -58,9 +82,18 @@ const SearchForm = ({ categories }) => {
     }
   };
 
-  const handleCourseChange = (course) => setSelectedCourse(course);
+  const handleCourseChange = (course) => setSelectedCourse((prev) => (prev === course ? null : course));
 
-  const handleDishTypeChange = (type) => setSelectedDishType(type);
+  const handleDishTypeChange = (type) => setSelectedDishType((prev) => (prev === type ? null : type));
+
+  const handleCookingTimeChange = (e) => {
+    const value = e.target.value;
+    if (value === '0') {
+      setCookingTime(null);
+    } else {
+      setCookingTime(value);
+    }
+  };
 
   return (
     <>
@@ -71,7 +104,8 @@ const SearchForm = ({ categories }) => {
           placeholder='Search recipes here ...'
           value={searchTerm}
           onChange={handleSearchTermChange}
-          onClick={openModal} // Open the modal when clicking on the search bar
+          onClick={handleFirstClick}
+          ref={searchBarRef}
         />
         <button
           type="submit"
@@ -87,7 +121,6 @@ const SearchForm = ({ categories }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {/* Ingredients Include Input */}
             <Form.Group controlId="formIncludeIngredients">
               <Form.Label>What ingredients would you like in the recipe?</Form.Label>
               <Form.Control
@@ -110,7 +143,6 @@ const SearchForm = ({ categories }) => {
               </div>
             </Form.Group>
 
-            {/* Ingredients Exclude Input */}
             <Form.Group controlId="formExcludeIngredients">
               <Form.Label>What ingredients would you NOT like in the recipe?</Form.Label>
               <Form.Control
@@ -133,23 +165,19 @@ const SearchForm = ({ categories }) => {
               </div>
             </Form.Group>
 
-            {/* Cooking Time Slider */}
-            <hr className="thin-break" />
             <Form.Group controlId="formCookingTime">
               <Form.Label>Cooking Time (in minutes)</Form.Label>
               <Form.Control
                 type="range"
-                min="1"
+                min="0"
                 max="240"
-                value={cookingTime}
-                onChange={(e) => setCookingTime(e.target.value)}
+                value={cookingTime || 0} // Default to 0 if cookingTime is null
+                onChange={handleCookingTimeChange}
                 className="adjustable-bar"
               />
-              <div>{cookingTime} minutes</div>
+              <div>{cookingTime || 'Any'} minutes</div>
             </Form.Group>
 
-            {/* Course Selection */}
-            <hr className="thin-break" />
             <Form.Group controlId="formCourse">
               <Form.Label>Course</Form.Label>
               <div className="circle-options">
@@ -165,8 +193,6 @@ const SearchForm = ({ categories }) => {
               </div>
             </Form.Group>
 
-            {/* Type of Dish Selection */}
-            <hr className="thin-break" />
             <Form.Group controlId="formTypeOfDish">
               <Form.Label>Type of Dish</Form.Label>
               <div className="circle-options">
