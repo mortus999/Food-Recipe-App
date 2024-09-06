@@ -1,4 +1,3 @@
-// Sidebar.scss
 .sidebar {
     position: fixed;
     left: 0;
@@ -13,6 +12,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-top: 80px;  /* Keeping the change from my-group-branch */
   
     &.collapsed {
       width: 60px;
@@ -24,6 +24,15 @@
       .side-icon {
         text-align: center;
       }
+
+      /* Keeping the collapsed sidebar functionality from main */
+      .side-content {
+        display: none;
+      }
+      .navbar-hide-btn {
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+      }
     }
   
     .navbar-hide-btn {
@@ -33,6 +42,8 @@
       cursor: pointer;
       display: flex;
       justify-content: flex-end;
+      transform: rotate(180deg);
+      transition: transform 0.3s ease;
     }
   
     .side-content {
@@ -93,32 +104,6 @@
         .side-link-text {
           font-size: 16px;
         }
-      
-
-
-        .sidebar {
-          &.collapsed {
-            .side-content {
-              display: none;
-            }
-            .navbar-hide-btn {
-              transform: rotate(0deg);
-              transition: transform 0.3s ease;
-            }
-          }
-        
-          .navbar-hide-btn {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-            background: none;
-            border: none;
-            cursor: pointer;
-          }
-        }
-        
-
-      
       }
     }
-  }
-  
+}

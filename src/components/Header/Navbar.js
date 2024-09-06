@@ -1,16 +1,16 @@
-// src/components/Navbar/Navbar.js
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import logo from '../../assets/images/recipe-z logo with text.png';
 import userIcon from '../../assets/images/Group.png';
+
 import SignInModal from '../SignInModal/SignInModal';
 import { useAuth } from '../../context/AuthContext'; // Import useAuth from AuthContext
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isAuthenticated, logout } = useAuth(); // Use AuthContext to get auth state and logout function
+  const { isAuthenticated, user, logout } = useAuth(); // Get user object and isAuthenticated
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -40,15 +40,12 @@ const Navbar = () => {
               </Link>
               <div className='navbar-btns flex align-center'>
                 {isAuthenticated ? (
-                  // If user is authenticated, show logout button
+                  // If user is authenticated, show Profile and Logout button with the username
                   <>
                     <Link to="/profile" className='auth-btn text-white'>
                       <img src={userIcon} alt="user-icon" className='user-icon' />
-                      Profile
+                      Hi, {user?.displayName || "User"} {/* Display the username */}
                     </Link>
-                    <button className='auth-btn text-white' onClick={logout}>
-                      Logout
-                    </button>
                   </>
                 ) : (
                   // If user is not authenticated, show Sign In button
