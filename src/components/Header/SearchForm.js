@@ -22,24 +22,31 @@ const SearchForm = () => {
   const fetchRecipes = async () => {
     try {
       const queryParams = new URLSearchParams();
-
+  
       if (searchTerm) queryParams.append('search', searchTerm);
       if (includeIngredients.length) queryParams.append('include_ingredients', includeIngredients.join(','));
       if (excludeIngredients.length) queryParams.append('exclude_ingredients', excludeIngredients.join(','));
-      if (cookingTime !== null) queryParams.append('max_time', cookingTime);
+      if (cookingTime !== null && cookingTime !== '0') queryParams.append('max_time', cookingTime);
       if (selectedCourse) queryParams.append('meal_type', selectedCourse);
       if (selectedDishType) queryParams.append('dish_type', selectedDishType);
-
-      const response = await fetch(`/api/cacherecipesearch/?${queryParams.toString()}`);
-      
-      if (!response.ok) throw new Error('Failed to fetch recipes');
-      
+  
+      // Ensure URL is well-formed
+      const queryString = queryParams.toString();
+      const fetchUrl = `/recipes/search/?${queryString}`;
+  
+      const response = await fetch(fetchUrl);
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch recipes');
+      }
+  
       const data = await response.json();
       dispatch({ type: 'SET_MEALS', payload: data });
     } catch (error) {
       console.error('Error fetching recipes:', error);
     }
   };
+  
 
   const handleSearch = (e) => {
     e.preventDefault();

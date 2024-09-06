@@ -1,74 +1,84 @@
 .signup-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #e3f4fa; /* Light blue background */
-    padding: 48px; /* Adjust padding as needed */
-    border-radius: 8px; /* Optional: rounded corners */
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e3f4fa; /* Light blue background */
+  padding: 48px; /* Adjust padding as needed */
+  border-radius: 8px; /* Optional: rounded corners */
+  max-width: 1500px; /* Limit the width to keep it centered */
+  margin: 0 auto; /* Center the section horizontally */
+  margin-top: 25px;
   
-  .signup-content {
-    max-width: 50%; /* Adjust width as needed */
+  /* Optional: Add some space on the left if needed */
+  padding-left: 100px; /* Adjust this value to avoid overlapping content on the left side */
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding-left: 24px; /* Decrease left padding for smaller screens */
   }
-  
-  .signup-content h2 {
-    font-size: 2.4rem;
-    color: #333;
-    margin-bottom: 24px;
-  }
-  
-  .signup-content .highlight {
-    color: #00aaff; /* Highlighted text color */
-  }
-  
-  .signup-button {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .signup-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  .features-list {
-    background-color: white;
-    padding: 32px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  .features-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .features-list li {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 16px;
-  }
-  
-  .features-list img {
-    margin-right: 16px;
-    width: 24px;
-    height: 24px;
-  }
-  
-  .illustration {
-    max-width: 384px;
-  }
-  
-  .illustration img {
-    width: 100%;
-    height: auto;
-  }
-  
+}
+
+.signup-content {
+  max-width: 50%; /* Adjust width as needed */
+}
+
+.signup-content h2 {
+  font-size: 2.4rem;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.signup-content .highlight {
+  color: #00aaff; /* Highlighted text color */
+}
+
+.signup-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.features-list {
+  background-color: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.features-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.features-list img {
+  margin-right: 16px;
+  width: 24px;
+  height: 24px;
+}
+
+.illustration {
+  max-width: 384px;
+}
+
+.illustration img {
+  width: 100%;
+  height: auto;
+}
