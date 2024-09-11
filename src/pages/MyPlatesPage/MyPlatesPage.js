@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link component
-import './MyPlates.scss';
+import './MyPlatesPage.scss';
 
 const MyPlates = () => {
   // Assuming you are fetching plates or getting it from props
