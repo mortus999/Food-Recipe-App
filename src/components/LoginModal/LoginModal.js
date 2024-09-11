@@ -14,6 +14,9 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   // // Use environment variable for API URL
   // const apiUrl = process.env.REACT_APP_API_URL;
+
+  // Use environment variable for API URL
+  // const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'; // Fallback to local development URL
   
 
   useEffect(() => {
@@ -141,6 +144,16 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
+
+
+
+
+
+
+
+
+
+
 
 
 
