@@ -9,7 +9,7 @@ import ResetPassword from './components/ResetPassword/ResetPassword';
 // import { useAuth, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Header/Navbar';
 import CreateMyPlate from './pages/CreateMyPlates/CreateMyPlates';
-import MyPlates from './pages/MyPlates/MyPlates'; 
+import MyPlates from './pages/MyPlatesPage/MyPlates'; 
 
 function App() {
   const location = useLocation();
