@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 // import RandomMeals from './components/RandomMeals/RandomMeals';
 import ResetPassword from './components/ResetPassword/ResetPassword';
-import { useAuth, AuthProvider } from './context/AuthContext';
+// import { useAuth, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Header/Navbar';
 import CreateMyPlate from './pages/CreateMyPlates/CreateMyPlates';
 import MyPlates from './pages/MyPlates/MyPlates'; 
@@ -16,8 +16,8 @@ function App() {
   
   // Check if we're on the CreateMyPlate or MyPlates page
   const isCreateMyPlatePage = location.pathname === '/create-my-plate';
-  const isMyPlatesPage = location.pathname === '/plates';
-  const { isAuthenticated } = useAuth(); 
+  // const isMyPlatesPage = location.pathname === '/plates';
+  // const { isAuthenticated } = useAuth(); 
 
   return (
     <>
