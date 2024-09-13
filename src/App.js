@@ -4,7 +4,7 @@ import { Home, MealDetails, Error, Category } from "./pages/index";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
-import RandomMeals from './components/RandomMeals/RandomMeals';
+// import RandomMeals from './components/RandomMeals/RandomMeals';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import { useAuth, AuthProvider } from './context/AuthContext';
 import Navbar from './components/Header/Navbar';
@@ -13,7 +13,11 @@ import MyPlates from './pages/MyPlates/MyPlates';
 
 function App() {
   const location = useLocation();
+  
+  // Check if we're on the CreateMyPlate or MyPlates page
   const isCreateMyPlatePage = location.pathname === '/create-my-plate';
+  const isMyPlatesPage = location.pathname === '/plates';
+  const { isAuthenticated } = useAuth(); 
 
   return (
     <>
@@ -27,13 +31,13 @@ function App() {
         <Route path="/create-my-plate" element={<CreateMyPlate />} />
         
         {/* Route for My Plates */}
-        <Route path="/plates" element={<MyPlates />} />  {/* Added MyPlates route */}
+        <Route path="/plates" element={<MyPlates />} />
         
         {/* Other existing routes */}
         <Route path="/" element={<Home />} />
         <Route path="/meal/:id" element={<MealDetails />} />
         <Route path="/meal/category/:name" element={<Category />} />
-        <Route path="/reset-password/:uidb64/:token/" element={<ResetPassword />} /> {/* Updated route */}
+        <Route path="/reset-password/:uidb64/:token/" element={<ResetPassword />} />
         <Route path="*" element={<Error />} />
       </Routes>
 

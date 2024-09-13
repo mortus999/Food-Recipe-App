@@ -2,11 +2,9 @@ import React, { useState, useRef } from 'react';
 import "./Header.scss";
 import { BsSearch } from "react-icons/bs";
 import { useMealContext } from '../../context/mealContext';
-import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const SearchForm = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [includeIngredients, setIncludeIngredients] = useState([]);
   const [excludeIngredients, setExcludeIngredients] = useState([]);
@@ -18,24 +16,47 @@ const SearchForm = () => {
   const searchBarRef = useRef(null);
   const [modalOpenedFromBar, setModalOpenedFromBar] = useState(false); // Track if modal was opened from search bar
 
+  // Determine API URL based on the environment (local vs production)
+  // const apiUrl = process.env.NODE_ENV === 'development' 
+  //   ? 'http://localhost:8000' 
+  //   : process.env.REACT_APP_API_URL;
+    // Hard-coded API URL for local development
+    const apiUrl = 'http://localhost:8000';
+
+    // // Use environment variable for API URL
+    // const apiUrl = process.env.REACT_APP_API_URL;
+
   // Fetch request to send search query to backend
   const fetchRecipes = async () => {
     try {
       const queryParams = new URLSearchParams();
-
+  
       if (searchTerm) queryParams.append('search', searchTerm);
       if (includeIngredients.length) queryParams.append('include_ingredients', includeIngredients.join(','));
       if (excludeIngredients.length) queryParams.append('exclude_ingredients', excludeIngredients.join(','));
-      if (cookingTime !== null) queryParams.append('max_time', cookingTime);
+      if (cookingTime !== null && cookingTime !== '0') queryParams.append('max_time', cookingTime);
       if (selectedCourse) queryParams.append('meal_type', selectedCourse);
       if (selectedDishType) queryParams.append('dish_type', selectedDishType);
-
-      const response = await fetch(`/api/cacherecipesearch/?${queryParams.toString()}`);
-      
-      if (!response.ok) throw new Error('Failed to fetch recipes');
-      
+  
+      // Ensure URL is well-formed
+      const queryString = queryParams.toString();
+      const fetchUrl = `${apiUrl}/recipes/search/?${queryString}`;
+  
+      const response = await fetch(fetchUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any required headers, e.g., authentication tokens
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch recipes');
+      }
+  
       const data = await response.json();
-      dispatch({ type: 'SET_MEALS', payload: data });
+      console.log('Search results:', data); // Display results for verification
+      dispatch({ type: 'SET_MEALS', payload: data }); // Dispatching the data to the context
     } catch (error) {
       console.error('Error fetching recipes:', error);
     }
@@ -46,7 +67,6 @@ const SearchForm = () => {
     fetchRecipes();
     setShowModal(false);  // Close modal after applying
     setModalOpenedFromBar(false);
-    navigate("/");
   };
 
   const handleSearchTermChange = (e) => setSearchTerm(e.target.value);

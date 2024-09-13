@@ -1,0 +1,21 @@
+.filter-bubbles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .bubble {
+    padding: 10px 15px;
+    background-color: #e0f7fa;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .remove-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+  }
+  

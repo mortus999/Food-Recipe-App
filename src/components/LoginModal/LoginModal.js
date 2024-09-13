@@ -9,11 +9,14 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [csrfToken, setCsrfToken] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // // Hard-coded API URL for local development
-  // const apiUrl = 'http://localhost:8000';
+  // Hard-coded API URL for local development
+  const apiUrl = 'http://localhost:8000';
+
+  // // Use environment variable for API URL
+  // const apiUrl = process.env.REACT_APP_API_URL;
 
   // Use environment variable for API URL
-  const apiUrl = process.env.REACT_APP_API_URL;
+  // const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'; // Fallback to local development URL
   
 
   useEffect(() => {
@@ -141,6 +144,16 @@ const LoginModal = ({ isOpen, onClose }) => {
 };
 
 export default LoginModal;
+
+
+
+
+
+
+
+
+
+
 
 
 
